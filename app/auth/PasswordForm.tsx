@@ -10,11 +10,11 @@ import {
   FormMessage,
   Form,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import pino from 'pino';
+import Password from '@/components/input/Password';
 
 const formSchema = z.object({
   password: z.string(),
@@ -43,7 +43,7 @@ const PasswordForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder='password' {...field} />
+                <Password placeholder='password' {...field} />
               </FormControl>
               <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
