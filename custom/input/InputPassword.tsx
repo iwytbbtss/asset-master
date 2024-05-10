@@ -3,10 +3,10 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { Input, InputProps } from '../ui/input';
-import { Button } from '../ui/button';
+import { Input, InputProps } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-const Password = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+const InputPassword = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const [show, setShow] = useState(false);
 
   const onClick = () => {
@@ -28,6 +28,6 @@ const Password = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => 
     </div>
   );
 });
-Password.displayName = 'Password';
+InputPassword.displayName = 'Password';
 
-export default Password;
+export default InputPassword;
