@@ -17,7 +17,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>((props, ref
     <div className='relative'>
       <Input ref={ref} type={show ? 'text' : 'password'} {...props} />
       <Button
-        className='absolute top-[50%] right-0 translate-y-[-50%]'
+        className='absolute top-[50%] translate-y-[-50%] right-0'
         type='button'
         variant='ghost'
         size='icon'

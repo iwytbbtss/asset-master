@@ -13,15 +13,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import pino from 'pino';
 import InputPassword from '@/custom/input/InputPassword';
-
-const formSchema = z.object({
-  password: z.string(),
-});
+import { signIn } from 'next-auth/react';
+import formSchema from './formSchema';
 
 const PasswordForm = () => {
-  const logger = pino({ timestamp: pino.stdTimeFunctions.isoTime });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,8 +25,12 @@ const PasswordForm = () => {
     },
   });
 
-  const onSubmit = ({ password }: z.infer<typeof formSchema>) => {
-    logger.info(password);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    await signIn('credentials', {
+      password: data.password,
+      redirect: true,
+      callbackUrl: '/',
+    });
   };
 
   return (
