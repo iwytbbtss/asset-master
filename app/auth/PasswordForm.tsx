@@ -15,9 +15,14 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import InputPassword from '@/custom/input/InputPassword';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 import formSchema from './formSchema';
 
 const PasswordForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,11 +32,20 @@ const PasswordForm = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await signIn('credentials', {
+      const result = await signIn('credentials', {
         password: data.password,
         redirect: false,
-        // callbackUrl: '/',
       });
+      // 로그인 성공
+      if (result && !result.error) {
+        router.replace('/');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error occured',
+          description: 'Incorrect Password',
+        });
+      }
     } catch (error) {
       // console.log('error');
     }
@@ -49,6 +63,7 @@ const PasswordForm = () => {
               <FormControl>
                 <InputPassword placeholder='password' {...field} />
               </FormControl>
+              <div className='right-0' />
               <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>

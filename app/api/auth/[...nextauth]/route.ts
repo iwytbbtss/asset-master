@@ -1,13 +1,11 @@
-import logger from '@/utils/logger';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     Credentials({
       credentials: { password: {} },
       authorize: async (credentials) => {
-        logger.info(credentials);
         if (credentials?.password !== process.env.PASSWORD) {
           throw new Error('Incorrect Password');
         }
