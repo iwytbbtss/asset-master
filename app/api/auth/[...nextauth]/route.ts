@@ -1,21 +1,24 @@
 import logger from '@/utils/logger';
 import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import Credentials from 'next-auth/providers/credentials';
 
 export const authOptions = {
   providers: [
-    CredentialsProvider({
+    Credentials({
       credentials: { password: {} },
       authorize: async (credentials) => {
         logger.info(credentials);
         if (credentials?.password !== process.env.PASSWORD) {
-          return null;
+          throw new Error('Incorrect Password');
         }
 
         return { id: 'admin' };
       },
     }),
   ],
+  pages: {
+    signIn: '/auth',
+  },
 };
 
 const handler = NextAuth(authOptions);

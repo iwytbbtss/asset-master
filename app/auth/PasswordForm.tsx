@@ -26,11 +26,15 @@ const PasswordForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await signIn('credentials', {
-      password: data.password,
-      redirect: true,
-      callbackUrl: '/',
-    });
+    try {
+      await signIn('credentials', {
+        password: data.password,
+        redirect: false,
+        // callbackUrl: '/',
+      });
+    } catch (error) {
+      // console.log('error');
+    }
   };
 
   return (
