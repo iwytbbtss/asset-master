@@ -14,12 +14,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import InputPassword from '@/components/input/InputPassword';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import formSchema from './formSchema';
 
 const PasswordForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +38,7 @@ const PasswordForm = () => {
       });
       // sign-in success
       if (result && !result.error) {
-        router.replace('/');
+        router.replace(searchParams.get('redirect') ?? '/');
       } else {
         toast({
           variant: 'destructive',

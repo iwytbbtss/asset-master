@@ -1,11 +1,9 @@
-import PasswordForm from './PasswordForm';
-import Session from './Session';
+import Body from './Body';
 
-const Auth = () => {
+const Auth = async () => {
   return (
     <main className='flex flex-col justify-center items-center w-full h-screen'>
-      <Session />
-      <PasswordForm />
+      <Body />
     </main>
   );
 };
