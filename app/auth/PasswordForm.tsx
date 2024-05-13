@@ -6,14 +6,13 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   Form,
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import InputPassword from '@/custom/input/InputPassword';
+import InputPassword from '@/components/input/InputPassword';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
@@ -36,7 +35,7 @@ const PasswordForm = () => {
         password: data.password,
         redirect: false,
       });
-      // 로그인 성공
+      // sign-in success
       if (result && !result.error) {
         router.replace('/');
       } else {
@@ -63,8 +62,6 @@ const PasswordForm = () => {
               <FormControl>
                 <InputPassword placeholder='password' {...field} />
               </FormControl>
-              <div className='right-0' />
-              <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
