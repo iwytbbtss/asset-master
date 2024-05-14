@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import Provider from './Provider';
+import SessionProvider from '../components/common/SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +19,7 @@ const RootLayout = async ({
   return (
     <html lang='ko'>
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <SessionProvider>{children}</SessionProvider>
         <Toaster />
       </body>
     </html>

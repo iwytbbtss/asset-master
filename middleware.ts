@@ -4,7 +4,7 @@ import { getToken } from 'next-auth/jwt';
 import { authOptions } from './lib/auth';
 
 export default withAuth(
-  async function middleware(req) {
+  async (req) => {
     const token = await getToken({ req, secret: process.env.AUTH_SECRET });
     const isAuth = !!token;
     // console.log(req.nextauth.token);
@@ -26,31 +26,12 @@ export default withAuth(
     }
 
     return NextResponse.next();
-
-    // if (isAuthPage) {
-    //   if (isAuth) {
-    //     return NextResponse.redirect(new URL('/dashboard', req.url));
-    //   }
-
-    //   return null;
-    // }
-
-    // if (!isAuth) {
-    //   let from = req.nextUrl.pathname;
-    //   if (req.nextUrl.search) {
-    //     from += req.nextUrl.search;
-    //   }
-
-    //   return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
-    // }
   },
   {
     pages: authOptions.pages,
     callbacks: {
       async authorized() {
-        // This is a work-around for handling redirect on auth pages.
-        // We return true here so that the middleware function above
-        // is always called.
+        // always called.
         return true;
       },
     },

@@ -11,26 +11,25 @@ import {
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import InputPassword from '@/components/input/InputPassword';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
-import formSchema from './formSchema';
+import formSchema, { type FormSchema } from './formSchema';
 
 const PasswordForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: '',
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: FormSchema) => {
     try {
       const result = await signIn('credentials', {
         password: data.password,
