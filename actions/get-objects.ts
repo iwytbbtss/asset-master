@@ -1,6 +1,6 @@
 'use server;';
 
-import addTrailingSlash from '@/utils/add-trailing-slash';
+import ensureTrailingSlash from '@/utils/ensure-trailing-slash';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 export const getObjects = async (prefix: string = '') => {
@@ -23,7 +23,7 @@ export const getObjects = async (prefix: string = '') => {
       return false;
     }
     const key = element.Key;
-    const path = addTrailingSlash(prefix);
+    const path = ensureTrailingSlash(prefix);
     // prefix 이후에 추가적인 '/'가 없는지 확인
     return key && key.startsWith(path) && key.split('/').length === path.split('/').length;
   });
