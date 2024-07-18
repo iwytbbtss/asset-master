@@ -1,4 +1,5 @@
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import S3 from '@/utils/s3-client';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest } from 'next/server';
 import { Readable } from 'stream';
 
@@ -11,13 +12,7 @@ export const GET = async (request: NextRequest) => {
       throw Error('key is required');
     }
 
-    const client = new S3Client({
-      region: process.env.S3_REGION,
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      },
-    });
+    const client = S3.instance;
     const command = new GetObjectCommand({
       Bucket: process.env.S3_BUCKET,
       Key: key,

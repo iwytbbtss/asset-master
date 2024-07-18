@@ -1,16 +1,11 @@
 'use server';
 
 import removePrefix from '@/utils/remove-prefix';
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import S3 from '@/utils/s3-client';
+import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 export const getDirectories = async (prefix: string = '') => {
-  const client = new S3Client({
-    region: process.env.S3_REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
+  const client = S3.instance;
 
   const command = new ListObjectsV2Command({
     Bucket: process.env.S3_BUCKET,

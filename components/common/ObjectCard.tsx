@@ -2,18 +2,18 @@
 
 import ensureTrailingSlash from '@/utils/ensure-trailing-slash';
 import removePrefix from '@/utils/remove-prefix';
-import { _Object } from '@aws-sdk/client-s3';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
 import isValidImageFile from '@/utils/is-valid-image-file';
 import { Button } from '../ui/button';
 import { Icons } from '../icon';
 import { useToast } from '../ui/use-toast';
+import S3Object from '@/models/s3-object';
 
-const ObjectCard = ({ object, prefix }: { object: _Object; prefix?: string }) => {
+const ObjectCard = ({ object, prefix }: { object: S3Object; prefix?: string }) => {
   const { toast } = useToast();
 
-  const key = object.Key!;
+  const key = object.Key;
   const url = `${ensureTrailingSlash(process.env.CLOUD_FRONT_PREFIX)}${key}`;
   const src = isValidImageFile(key) ? url : '/file.svg';
   const fileName = prefix ? removePrefix(prefix, key) : key;

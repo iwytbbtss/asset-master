@@ -1,16 +1,12 @@
 'use server';
 
+import S3Object from '@/models/s3-object';
 import ensureTrailingSlash from '@/utils/ensure-trailing-slash';
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import S3 from '@/utils/s3-client';
+import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 export const getObjects = async (prefix: string = '') => {
-  const client = new S3Client({
-    region: process.env.S3_REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
+  const client = S3.instance;
 
   const command = new ListObjectsV2Command({
     Bucket: process.env.S3_BUCKET,
@@ -24,7 +20,10 @@ export const getObjects = async (prefix: string = '') => {
     }
     const key = element.Key;
     const path = ensureTrailingSlash(prefix);
-    // prefix 이후에 추가적인 '/'가 없는지 확인
+    /**
+     * 하위 디렉토리는 필터링
+     * - prefix 이후에 추가적인 '/'가 없는지 확인
+     */
     return key && key.startsWith(path) && key.split('/').length === path.split('/').length;
-  });
+  }) as S3Object[] | undefined;
 };
