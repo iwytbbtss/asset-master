@@ -21,7 +21,8 @@ export const existsFolder = async (name: string) => {
   try {
     await client.send(command);
     return true;
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error(error);
     if (error.name === 'NotFound') {
       return false;

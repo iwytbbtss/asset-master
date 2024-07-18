@@ -1,4 +1,4 @@
-'use server;';
+'use server';
 
 import ensureTrailingSlash from '@/utils/ensure-trailing-slash';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
