@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 import SessionProvider from '../components/common/SessionProvider';
+import Navigator from '../components/common/Navigator';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,8 +20,9 @@ const RootLayout = async ({
   return (
     <html lang='ko'>
       <body className={inter.className}>
+        <Navigator />
         <SessionProvider>{children}</SessionProvider>
-        <Toaster />
+        <Toaster richColors />
       </body>
     </html>
   );

@@ -1,9 +1,11 @@
+import getFileExtension from './get-file-extension';
+
 const isValidImageFile = (filename: string) => {
   // 이미지 파일 확장자 목록
   const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
 
   // 파일명에서 확장자 추출
-  const extension = filename.split('.').pop()?.toLowerCase();
+  const extension = getFileExtension(filename);
 
   if (!extension) {
     return false;

@@ -1,22 +1,21 @@
 'use server;';
 
-import { HeadObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import S3 from '@/utils/s3-client';
+import { HeadObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
-// async function createFolder(Bucket, Key) {
-//   const client = new S3Client();
-//   const command = new PutObjectCommand({ Bucket, Key });
-//   return client.send(command);
-// }
+const createFolder = async (key: string) => {
+  const client = S3.instance;
+  if (await existsFolder(key)) {
+    return;
+  }
+  const command = new PutObjectCommand({ Bucket: process.env.S3_BUCKET, Key: key });
+  return client.send(command);
+};
 
-export const existsFolder = async (name: string) => {
-  const client = new S3Client({
-    region: process.env.S3_REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
-  const command = new HeadObjectCommand({ Bucket: process.env.S3_BUCKET, Key: name });
+// 이미 존재하는 폴더명
+const existsFolder = async (key: string) => {
+  const client = S3.instance;
+  const command = new HeadObjectCommand({ Bucket: process.env.S3_BUCKET, Key: key });
 
   try {
     await client.send(command);
@@ -31,3 +30,5 @@ export const existsFolder = async (name: string) => {
     }
   }
 };
+
+export default createFolder;
